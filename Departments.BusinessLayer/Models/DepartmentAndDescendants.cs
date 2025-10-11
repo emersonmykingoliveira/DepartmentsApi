@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Departments.BusinessLayer.Models
 {
-    internal class DepartmentWithParent
+    public class DepartmentAndDescendants
     {
         public int Oid { get; set; }
         public string? Title { get; set; }
+        public int NumDescendants { get; set; }
         public string? Color { get; set; }
-        public int DepartmentParentOID { get; set; }
+        public List<DepartmentAndDescendants>? Departments { get; set; }
     }
 }
