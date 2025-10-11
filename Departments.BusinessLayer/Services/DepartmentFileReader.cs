@@ -22,15 +22,32 @@ namespace Departments.BusinessLayer.Services
 
             foreach (string file in files)
             {
-                string[] content = await File.ReadAllLinesAsync(file);
+                using var stream = File.OpenRead(file);
+                using var reader = new StreamReader(stream);
 
-                foreach (string line in content)
+                string? line;
+                while ((line = await reader.ReadLineAsync()) is not null)
                 {
-
+                    List<DepartmentWithParent> departmentWithParents = TryParseFileContent(line);
                 }
             }
+        }
 
-            return string.Empty;
+        private void TryParseFileContent(string line)
+        {
+            var content = line.Split(',');
+
+            DepartmentWithParent departmentWithParent = new DepartmentWithParent();
+
+            if (int.TryParse(content[0], out int oID))
+                departmentWithParent.Oid = oID;
+
+            departmentWithParent.Title = content[1];
+
+            departmentWithParent.Color = content[2];
+
+            if (int.TryParse(content[3], out int departmentParentOID))
+                departmentWithParent.DepartmentParentOID = departmentParentOID;
         }
     }
 }
