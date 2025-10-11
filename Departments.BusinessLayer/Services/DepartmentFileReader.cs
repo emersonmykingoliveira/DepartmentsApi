@@ -23,9 +23,9 @@ namespace Departments.BusinessLayer.Services
 
             foreach (string file in files)
             {
-                var allLines = File.ReadAllLines(file).Skip(1);
+                var allLines = await File.ReadAllLinesAsync(file);
                     
-                foreach (string line in allLines)
+                foreach (string line in allLines.Skip(1))
                 {
                     var result = TryParseFileContent(line);
                     departments.Add(result);
