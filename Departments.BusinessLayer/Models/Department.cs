@@ -8,5 +8,10 @@ namespace Departments.BusinessLayer.Models
 {
     internal class Department
     {
+        public int Oid { get; set; }
+        public string? Title { get; set; }
+        public int NumDescendants { get; set; }
+        public string? Color { get; set; }
+        public List<Department>? Departments { get; set; }
     }
 }
