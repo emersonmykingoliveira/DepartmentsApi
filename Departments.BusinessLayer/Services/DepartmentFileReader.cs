@@ -22,10 +22,15 @@ namespace Departments.BusinessLayer.Services
 
             foreach (string file in files)
             {
-                string content = await File.ReadAllTextAsync(file);
+                string[] content = await File.ReadAllLinesAsync(file);
+
+                foreach (string line in content)
+                {
+
+                }
             }
 
-
+            return string.Empty;
         }
     }
 }
