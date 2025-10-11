@@ -15,8 +15,4 @@
     <ProjectReference Include="..\Departments.BusinessLayer\Departments.BusinessLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Files\" />
-  </ItemGroup>
-
 </Project>
