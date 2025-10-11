@@ -1,5 +1,6 @@
 using Departments.Api.EndPoints;
 using Departments.BusinessLayer.Models;
+using Departments.BusinessLayer.Services;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
