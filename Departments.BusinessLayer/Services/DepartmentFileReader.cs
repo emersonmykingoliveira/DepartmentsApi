@@ -16,8 +16,10 @@ namespace Departments.BusinessLayer.Services
             FilePath = filePath;
         }
 
-        public async Task<string> ReadAllFiles()
+        public async Task<List<Department>> ReadAllFiles()
         {
+            List<Department> departments = new List<Department>();
+            List<DepartmentWithParent> departmentWithParents = new List<DepartmentWithParent>();
             string[] files = Directory.GetFiles(FilePath);
 
             foreach (string file in files)
@@ -28,12 +30,20 @@ namespace Departments.BusinessLayer.Services
                 string? line;
                 while ((line = await reader.ReadLineAsync()) is not null)
                 {
-                    List<DepartmentWithParent> departmentWithParents = TryParseFileContent(line);
+                    var result = TryParseFileContent(line);
+                    departmentWithParents.Add(result);
                 }
             }
+
+            return SortDepartmentsHierarcy(departmentWithParents);
         }
 
-        private void TryParseFileContent(string line)
+        private List<Department> SortDepartmentsHierarcy(List<DepartmentWithParent> departmentWithParents)
+        {
+            throw new NotImplementedException();
+        }
+
+        private DepartmentWithParent TryParseFileContent(string line)
         {
             var content = line.Split(',');
 
@@ -48,6 +58,8 @@ namespace Departments.BusinessLayer.Services
 
             if (int.TryParse(content[3], out int departmentParentOID))
                 departmentWithParent.DepartmentParentOID = departmentParentOID;
+
+            return departmentWithParent;
         }
     }
 }

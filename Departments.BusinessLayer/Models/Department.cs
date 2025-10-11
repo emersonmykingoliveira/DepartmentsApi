@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Departments.BusinessLayer.Models
 {
-    internal class Department
+    public class Department
     {
         public int Oid { get; set; }
         public string? Title { get; set; }
