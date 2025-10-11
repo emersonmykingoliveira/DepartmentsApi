@@ -8,9 +8,14 @@ namespace Departments.BusinessLayer.Models
 {
     public class DepartmentFileReader : IDepartmentFileReader
     {
-        public string FilePath { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string FilePath { get; set; }
 
-        public string ReadAllFiles()
+        public DepartmentFileReader(string filePath)
+        {
+            FilePath = filePath;
+        }
+
+        public async Task<string> ReadAllFiles()
         {
             throw new NotImplementedException();
         }
