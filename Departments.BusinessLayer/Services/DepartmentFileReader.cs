@@ -38,7 +38,8 @@ namespace Departments.BusinessLayer.Services
         private List<Department> SortDepartmentsHierarcy(List<Department> departments)
         {
             var departmentsDictionary = departments.ToDictionary(d => d.Oid);
-            var roots = new List<Department>();
+
+            var departmentsRoots = new List<Department>();
 
             foreach (var department in departments)
             {
@@ -48,12 +49,13 @@ namespace Departments.BusinessLayer.Services
                 }
                 else
                 {
-                    roots.Add(department);
+                    departmentsRoots.Add(department);
                 }
             }
 
-            return roots;
+            return departmentsRoots;
         }
+
 
         private Department TryParseFileContent(string line)
         {

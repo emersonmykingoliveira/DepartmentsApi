@@ -11,7 +11,7 @@ namespace Departments.BusinessLayer.Models
     {
         public int Oid { get; set; }
         public string? Title { get; set; }
-        public int NumDescendants { get; set; }
+        public int NumDescendants => Departments.Count();
         public string? Color { get; set; }
         public List<Department> Departments { get; set; } = new List<Department>();
         [JsonIgnore]
