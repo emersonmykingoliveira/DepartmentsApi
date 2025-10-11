@@ -9,6 +9,6 @@ namespace Departments.BusinessLayer.Models
     public interface IDepartmentFileReader
     {
         string FilePath { get; set; }
-        string ReadAllFiles();
+        Task<string> ReadAllFiles();
     }
 }
