@@ -18,7 +18,14 @@ namespace Departments.BusinessLayer.Services
 
         public async Task<string> ReadAllFiles()
         {
-            throw new NotImplementedException();
+            string[] files = Directory.GetFiles(FilePath);
+
+            foreach (string file in files)
+            {
+                string content = await File.ReadAllTextAsync(file);
+            }
+
+
         }
     }
 }
