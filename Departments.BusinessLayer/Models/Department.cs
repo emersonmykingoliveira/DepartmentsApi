@@ -13,7 +13,7 @@ namespace Departments.BusinessLayer.Models
         public int DepartmentParentOID { get; set; }
         public int Oid { get; set; }
         public string? Title { get; set; }
-        public int NumDescendants => Departments.Count();
+        public int NumDescendants { get; set; }
         public string? Color { get; set; }
         public List<Department> Departments { get; set; } = new List<Department>();
         

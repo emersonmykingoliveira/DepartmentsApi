@@ -1,0 +1,80 @@
+OID,Title,Color,DepartmentParent_OID
+1,US News,#F52612,
+2,Crime + Justice,#F52612,1
+3,Energy + Environment,#F52612,1
+4,Extreme Weather,#F52612,1
+5,Space + Science,#F52612,1
+6,International News,#EB5F25,
+7,Africa,#EB5F25,6
+8,Americas,#EB5F25,6
+9,Asia,#EB5F25,6
+10,Europe,#EB5F25,6
+11,Law Enforcement,#F52612,2
+12,Courts,#F52612,2
+13,Prisons,#F52612,2
+14,Renewable Energy,#F52612,3
+15,Fossil Fuels,#F52612,3
+16,Climate Change,#F52612,3
+17,Hurricanes,#F52612,4
+18,Tornadoes,#F52612,4
+19,Flooding,#F52612,4
+20,Space Exploration,#F52612,5
+21,Astronomy,#F52612,5
+22,Technology + Innovation,#F52612,5
+23,East Africa,#EB5F25,7
+24,West Africa,#EB5F25,7
+25,North Africa,#EB5F25,7
+26,South America,#EB5F25,8
+27,North America,#EB5F25,8
+28,Central America,#EB5F25,8
+29,South Asia,#EB5F25,9
+30,East Asia,#EB5F25,9
+31,Southeast Asia,#EB5F25,9
+32,Western Europe,#EB5F25,10
+33,Eastern Europe,#EB5F25,10
+34,Northern Europe,#EB5F25,10
+35,Southern Europe,#EB5F25,10
+36,Police Technology,#F52612,11
+37,Federal Agencies,#F52612,11
+38,Legal Reform,#F52612,12
+39,High-Profile Trials,#F52612,12
+40,Inmate Rights,#F52612,13
+41,Prison Labor,#F52612,13
+42,Solar Energy,#F52612,14
+43,Wind Power,#F52612,14
+44,Oil + Gas,#F52612,15
+45,Coal Industry,#F52612,15
+46,Carbon Emissions,#F52612,16
+47,Green Policies,#F52612,16
+48,Space Missions,#F52612,20
+49,Satellites,#F52612,20
+50,Planetary Science,#F52612,21
+51,Astrobiology,#F52612,21
+52,Tech Breakthroughs,#F52612,22
+53,Robotics,#F52612,22
+54,Kenya,#EB5F25,23
+55,Uganda,#EB5F25,23
+56,Nigeria,#EB5F25,24
+57,Ghana,#EB5F25,24
+58,Egypt,#EB5F25,25
+59,Morocco,#EB5F25,25
+60,Brazil,#EB5F25,26
+61,Argentina,#EB5F25,26
+62,USA,#EB5F25,27
+63,Canada,#EB5F25,27
+64,Mexico,#EB5F25,28
+65,Panama,#EB5F25,28
+66,India,#EB5F25,29
+67,Pakistan,#EB5F25,29
+68,China,#EB5F25,30
+69,Japan,#EB5F25,30
+70,Thailand,#EB5F25,31
+71,Vietnam,#EB5F25,31
+72,France,#EB5F25,32
+73,Germany,#EB5F25,32
+74,Poland,#EB5F25,33
+75,Ukraine,#EB5F25,33
+76,Sweden,#EB5F25,34
+77,Norway,#EB5F25,34
+78,Italy,#EB5F25,35
+79,Spain,#EB5F25,35

@@ -48,7 +48,7 @@ namespace Departments.BusinessLayer.Services
             var dict = BuildDepartmentsDictionary(departments);
             var roots = new List<Department>();
 
-            foreach (var dept in dict.Values)
+            foreach (var dept in departments)
             {
                 if (dict.TryGetValue(dept.DepartmentParentOID, out var parent))
                     parent.Departments.Add(dept);
