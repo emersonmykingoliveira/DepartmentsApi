@@ -22,6 +22,7 @@ namespace Departments.Api.Middleware
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error parsing file");
 
                 var problem = new ProblemDetails
                 {
