@@ -9,7 +9,6 @@ namespace Departments.BusinessLayer.Services
 {
     public class DepartmentFileReaderService : IDepartmentFileReaderService
     {
-
         public async Task<List<Department>> ReadAllFilesAsync(string filePath)
         {
             List<Department> departmentsCollection = new List<Department>();
