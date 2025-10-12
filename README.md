@@ -1,1 +1,3 @@
 # DepartmentsSln
+
+  "DepartmentFiles:Path": "./test"
