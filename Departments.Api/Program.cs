@@ -35,7 +35,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//Middleware for error handling
+//Middleware for global error handling when parsing the file
 app.UseMiddleware<FileExceptionMiddleware>();
 
 //Endpoints

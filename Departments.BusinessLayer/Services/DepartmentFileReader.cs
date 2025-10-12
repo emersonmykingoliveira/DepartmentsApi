@@ -16,7 +16,7 @@ namespace Departments.BusinessLayer.Services
             FilePath = filePath;
         }
 
-        public async Task<List<Department>> ReadAllFiles()
+        public async Task<List<Department>> ReadAllFilesAsync()
         {
             List<Department> departments = new List<Department>();
             string[] files = Directory.GetFiles(FilePath);
