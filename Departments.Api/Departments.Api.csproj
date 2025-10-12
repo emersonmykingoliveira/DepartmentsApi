@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Departments.BusinessLayer\Departments.BusinessLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Files\Sample\" />
+  </ItemGroup>
+
 </Project>
