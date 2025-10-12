@@ -9,18 +9,12 @@ namespace Departments.BusinessLayer.Services
 {
     public class DepartmentFileReaderService : IDepartmentFileReaderService
     {
-        public string FilePath { get; set; }
 
-        public DepartmentFileReaderService(string filePath)
-        {
-            FilePath = filePath;
-        }
-
-        public async Task<List<Department>> ReadAllFilesAsync()
+        public async Task<List<Department>> ReadAllFilesAsync(string filePath)
         {
             List<Department> departmentsCollection = new List<Department>();
 
-            string[] files = Directory.GetFiles(FilePath);
+            string[] files = Directory.GetFiles(filePath);
 
             foreach (string file in files)
             {
