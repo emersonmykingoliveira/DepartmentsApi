@@ -19,6 +19,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddControllers();
 
 //Dependency registrations
+builder.Services.Configure<DepartmentFilesOptions>(builder.Configuration.GetSection("DepartmentFiles"));
 builder.Services.AddScoped<IDepartmentFileReaderService, DepartmentFileReaderService>();
 
 var app = builder.Build();
