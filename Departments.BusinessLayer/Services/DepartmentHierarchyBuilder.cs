@@ -5,29 +5,34 @@ namespace Departments.BusinessLayer.Services
 {
     public class DepartmentHierarchyBuilder : IDepartmentHierarchyBuilder
     {
-        public List<Department> BuildDepartmentHierarchy(List<Department> departments)
+        public List<DepartmentWithHierarchy> BuildDepartmentHierarchy(List<DepartmentFromFile> departments)
         {
             var dict = BuildDepartmentsDictionary(departments);
-            var roots = new List<Department>();
+            List<DepartmentWithHierarchy> root = new List<DepartmentWithHierarchy>();
 
-            foreach (var dept in departments)
+            foreach (var dept in dict.Values)
             {
-                if (dict.TryGetValue(dept.DepartmentParentOID, out var parent))
+                if (dict.TryGetValue(dept.DepartmentParentOID ?? 0, out var parent))
                     parent.Departments.Add(dept);
                 else
-                    roots.Add(dept);
+                    root.Add(dept);
             }
 
-            return roots;
+            return root;
         }
 
-        private Dictionary<int, Department> BuildDepartmentsDictionary(List<Department> departmentsCollection)
+        private Dictionary<int, DepartmentWithHierarchy> BuildDepartmentsDictionary(List<DepartmentFromFile> departmentsCollection)
         {
-            Dictionary<int, Department> departmentDictionary = new Dictionary<int, Department>();
+            Dictionary<int, DepartmentWithHierarchy> departmentDictionary = new Dictionary<int, DepartmentWithHierarchy>();
 
             foreach (var department in departmentsCollection)
             {
-                departmentDictionary.TryAdd(department.Oid, department);
+                departmentDictionary.TryAdd(department.Oid, new DepartmentWithHierarchy
+                {
+                    Color = department.Color,
+                    Oid = department.Oid,
+                    Title = department.Title,
+                });
             }
 
             return departmentDictionary;

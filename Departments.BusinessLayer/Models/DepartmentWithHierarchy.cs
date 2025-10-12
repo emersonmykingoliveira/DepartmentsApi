@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 
 namespace Departments.BusinessLayer.Models
 {
-    public class Department
+    public class DepartmentWithHierarchy
     {
-        [JsonIgnore]
-        public int DepartmentParentOID { get; set; }
+        public int? DepartmentParentOID { get; set; }
         public int Oid { get; set; }
         public string? Title { get; set; }
         public int NumDescendants => CountDescendants();
         public string? Color { get; set; }
-        public List<Department> Departments { get; set; } = new List<Department>();
+        public List<DepartmentWithHierarchy> Departments { get; set; } = new List<DepartmentWithHierarchy>();
 
         public int CountDescendants()
         {

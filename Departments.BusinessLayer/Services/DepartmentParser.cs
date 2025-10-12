@@ -16,9 +16,9 @@ namespace Departments.BusinessLayer.Services
             _fileSystem = fileSystem;
         }
 
-        public async Task<List<Department>> ReadFileAsDepartmentsAsync(string filePath)
+        public async Task<List<DepartmentFromFile>> ReadFileAsDepartmentsAsync(string filePath)
         {
-            var departments = new List<Department>();
+            var departments = new List<DepartmentFromFile>();
 
             string[] lines = await _fileSystem.File.ReadAllLinesAsync(filePath);
 
@@ -37,11 +37,11 @@ namespace Departments.BusinessLayer.Services
             return departments;
         }
 
-        private Department TryParseDepartment(string line, int lineNumber)
+        private DepartmentFromFile TryParseDepartment(string line, int lineNumber)
         {
             var content = line.Split(',');
 
-            Department departmentWithParent = new Department();
+            DepartmentFromFile departmentWithParent = new DepartmentFromFile();
 
             //OID
             if (int.TryParse(content[0], out int oID))

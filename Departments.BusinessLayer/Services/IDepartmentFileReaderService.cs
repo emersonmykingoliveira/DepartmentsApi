@@ -10,6 +10,6 @@ namespace Departments.BusinessLayer.Services
 {
     public interface IDepartmentFileReaderService
     {
-        Task<List<Department>> ReadAllFilesAsync(string directoryPath);
+        Task<List<DepartmentWithHierarchy>> ReadAllFilesAsync(string directoryPath);
     }
 }

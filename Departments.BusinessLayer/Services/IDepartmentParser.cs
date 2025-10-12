@@ -6,6 +6,6 @@ namespace Departments.BusinessLayer.Services
 {
     public interface IDepartmentParser
     {
-        Task<List<Department>> ReadFileAsDepartmentsAsync(string filePath);
+        Task<List<DepartmentFromFile>> ReadFileAsDepartmentsAsync(string filePath);
     }
 }

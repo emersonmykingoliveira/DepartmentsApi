@@ -5,6 +5,6 @@ namespace Departments.BusinessLayer.Services
 {
     public interface IDepartmentHierarchyBuilder
     {
-        List<Department> BuildDepartmentHierarchy(List<Department> departments);
+        List<DepartmentWithHierarchy> BuildDepartmentHierarchy(List<DepartmentFromFile> departments);
     }
 }

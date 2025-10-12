@@ -21,9 +21,9 @@ namespace Departments.BusinessLayer.Services
             _hierarchyBuilder = hierarchyBuilder;
         }
 
-        public async Task<List<Department>> ReadAllFilesAsync(string directoryPath)
+        public async Task<List<DepartmentWithHierarchy>> ReadAllFilesAsync(string directoryPath)
         {
-            var allDepartments = new List<Department>();
+            var allDepartments = new List<DepartmentFromFile>();
 
             foreach (var file in _fileSystem.Directory.EnumerateFiles(directoryPath))
             {
