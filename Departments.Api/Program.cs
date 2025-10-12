@@ -20,6 +20,8 @@ builder.Services.AddControllers();
 
 //Dependency registrations
 builder.Services.AddSingleton<IFileSystem, FileSystem>();
+builder.Services.AddScoped<IDepartmentParser, DepartmentParser>();
+builder.Services.AddScoped<IDepartmentHierarchyBuilder, DepartmentHierarchyBuilder>();
 builder.Services.AddScoped<IDepartmentFileReaderService, DepartmentFileReaderService>();
 
 
