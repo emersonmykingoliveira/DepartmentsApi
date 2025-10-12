@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Departments.BusinessLayer.Models
 {
-    public interface IDepartmentFileReaderService
+    internal class DepartmentCollection
     {
-        string FilePath { get; set; }
-        Task<List<DepartmentResult>> ReadAllFilesAsync();
+        internal List<Department> Departments { get; set; } = new List<Department>();
     }
 }

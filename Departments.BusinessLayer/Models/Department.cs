@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Departments.BusinessLayer.Models
 {
-    public class Department
+    internal class Department
     {
         [JsonIgnore]
         public int DepartmentParentOID { get; set; }
