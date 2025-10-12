@@ -45,7 +45,7 @@ namespace Departments.BusinessLayer.Services
 
         private List<Department> BuildDepartmentHierarchy(List<Department> departments)
         {
-            var dict = departments.ToDictionary(d => d.Oid);
+            var dict = BuildDepartmentsDictionary(departments);
             var roots = new List<Department>();
 
             foreach (var dept in dict.Values)
@@ -59,7 +59,7 @@ namespace Departments.BusinessLayer.Services
             return roots;
         }
 
-        private Dictionary<int, Department> CreateDepartmentDictionary(List<Department> departmentsCollection)
+        private Dictionary<int, Department> BuildDepartmentsDictionary(List<Department> departmentsCollection)
         {
             Dictionary<int, Department> departmentDictionary = new Dictionary<int, Department>();
 
