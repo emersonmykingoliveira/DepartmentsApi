@@ -59,6 +59,7 @@ namespace Departments.BusinessLayer.Services
             return roots;
         }
 
+
         private Dictionary<int, Department> BuildDepartmentsDictionary(List<Department> departmentsCollection)
         {
             Dictionary<int, Department> departmentDictionary = new Dictionary<int, Department>();
