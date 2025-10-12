@@ -1,4 +1,3 @@
-using Departments.Api.EndPoints;
 using Departments.Api.Middleware;
 using Departments.BusinessLayer.Models;
 using Departments.BusinessLayer.Services;
@@ -17,6 +16,8 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddControllers();
+
 //Dependency registrations
 builder.Services.AddScoped<IDepartmentFileReaderService, DepartmentFileReaderService>();
 
@@ -33,7 +34,6 @@ app.UseHttpsRedirection();
 //Middleware for global error handling when parsing the file
 app.UseMiddleware<FileExceptionMiddleware>();
 
-//Endpoints
-app.GetDepartmentsHierarcy();
+app.MapControllers();
 
 app.Run();
