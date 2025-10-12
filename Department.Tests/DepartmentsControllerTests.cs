@@ -1,6 +1,6 @@
 ﻿namespace Department.Tests
 {
-    public class UnitTest1
+    public class DepartmentsControllerTests
     {
         [Fact]
         public void Test1()
