@@ -22,7 +22,7 @@ namespace Departments.BusinessLayer.Services
 
             string[] lines = await _fileSystem.File.ReadAllLinesAsync(filePath);
 
-            int lineNumber = 0;
+            int lineNumber = 1;
 
             foreach (var line in lines.Skip(1))
             {
