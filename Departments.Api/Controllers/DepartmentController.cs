@@ -1,4 +1,4 @@
-﻿using Departments.BusinessLayer.Models;
+﻿using Departments.BusinessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Departments.Api.Controllers

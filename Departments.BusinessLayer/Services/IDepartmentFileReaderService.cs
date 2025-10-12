@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Departments.BusinessLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Departments.BusinessLayer.Models
+namespace Departments.BusinessLayer.Services
 {
     public interface IDepartmentFileReaderService
     {

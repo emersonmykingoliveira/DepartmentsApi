@@ -1,5 +1,4 @@
 using Departments.Api.Middleware;
-using Departments.BusinessLayer.Models;
 using Departments.BusinessLayer.Services;
 using Microsoft.OpenApi.Models;
 using System.IO.Abstractions;
