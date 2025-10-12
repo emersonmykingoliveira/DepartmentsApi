@@ -30,13 +30,17 @@ namespace Departments.BusinessLayer.Services
 
             using var reader = new StreamReader(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
 
-            await reader.ReadLineAsync(); // skip header
+            int lineNumber = 0;
+
+            await reader.ReadLineAsync();//Skip header
+
+            lineNumber++;
 
             while (await reader.ReadLineAsync() is { } line)
             {
                 if (string.IsNullOrWhiteSpace(line)) continue;
 
-                if (TryParseDepartment(line) is { } department)
+                if (TryParseDepartment(line, lineNumber) is { } department)
                     departments.Add(department);
             }
 
@@ -72,21 +76,34 @@ namespace Departments.BusinessLayer.Services
             return departmentDictionary;
         }
 
-        private Department TryParseDepartment(string line)
+        private Department TryParseDepartment(string line, int lineNumber)
         {
             var content = line.Split(',');
 
             Department departmentWithParent = new Department();
 
+            //OID
             if (int.TryParse(content[0], out int oID))
                 departmentWithParent.Oid = oID;
+            else
+                throw new ArgumentException($"Line number {lineNumber}, error parsing OID");
+
+            //Title
+            if (string.IsNullOrWhiteSpace(content[1]))
+                throw new ArgumentException($"Line number {lineNumber}, error parsing Title");
 
             departmentWithParent.Title = content[1];
+
+            //Color
+            if (string.IsNullOrWhiteSpace(content[2]))
+                throw new ArgumentException($"Line number {lineNumber}, error parsing Color");
 
             departmentWithParent.Color = content[2];
 
             if (int.TryParse(content[3], out int departmentParentOID))
                 departmentWithParent.DepartmentParentOID = departmentParentOID;
+            else
+                throw new ArgumentException($"Line number {lineNumber}, error parsing DepartmentParentOID");
 
             return departmentWithParent;
         }
