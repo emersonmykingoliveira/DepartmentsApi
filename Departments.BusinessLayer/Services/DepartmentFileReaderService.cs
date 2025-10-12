@@ -24,6 +24,8 @@ namespace Departments.BusinessLayer.Services
             {
                 using (var reader = new StreamReader(stream))
                 {
+                    await reader.ReadLineAsync();//To skip the header line
+
                     while (await reader.ReadLineAsync() is string line)
                     {
                         if (string.IsNullOrWhiteSpace(line)) continue;
