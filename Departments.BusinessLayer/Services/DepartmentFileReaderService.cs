@@ -9,6 +9,9 @@ namespace Departments.BusinessLayer.Services
 {
     public class DepartmentFileReaderService : IDepartmentFileReaderService
     {
+        public Func<string, Stream> FileOpener { get; set; } =
+            path => new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+
         public async Task<List<Department>> ReadAllFilesAsync(string directoryPath)
         {
             var allDepartments = new List<Department>();
@@ -28,7 +31,9 @@ namespace Departments.BusinessLayer.Services
         {
             var departments = new List<Department>();
 
-            using var reader = new StreamReader(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
+            using var stream = FileOpener(filePath);
+
+            using var reader = new StreamReader(stream);
 
             int lineNumber = 0;
 
@@ -101,10 +106,13 @@ namespace Departments.BusinessLayer.Services
             departmentWithParent.Color = content[2];
 
             //DepartmentParentOID
-            if (int.TryParse(content[3], out int departmentParentOID))
-                departmentWithParent.DepartmentParentOID = departmentParentOID;
-            else
-                throw new ArgumentException($"Line number {lineNumber}, error parsing DepartmentParentOID");
+            if (!string.IsNullOrWhiteSpace(content[3]))
+            {
+                if (int.TryParse(content[3], out int departmentParentOID))
+                    departmentWithParent.DepartmentParentOID = departmentParentOID;
+                else
+                    throw new ArgumentException($"Line number {lineNumber}, error parsing DepartmentParentOID");
+            }
 
             return departmentWithParent;
         }
