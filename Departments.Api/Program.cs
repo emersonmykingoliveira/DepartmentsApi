@@ -1,4 +1,5 @@
 using Departments.Api.EndPoints;
+using Departments.Api.Middleware;
 using Departments.BusinessLayer.Models;
 using Departments.BusinessLayer.Services;
 using Microsoft.OpenApi.Models;
@@ -33,6 +34,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//Middleware for error handling
+app.UseMiddleware<FileExceptionMiddleware>();
 
 //Endpoints
 app.GetDepartmentsHierarcy();
