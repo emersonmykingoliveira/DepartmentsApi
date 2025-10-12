@@ -8,6 +8,6 @@ namespace Departments.BusinessLayer.Models
 {
     public interface IDepartmentFileReaderService
     {
-        Task<List<Department>> ReadAllFilesAsync(string filePath);
+        Task<List<Department>> ReadAllFilesAsync(string directoryPath);
     }
 }

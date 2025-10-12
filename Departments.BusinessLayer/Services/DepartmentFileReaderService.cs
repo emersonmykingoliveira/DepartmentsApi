@@ -9,20 +9,18 @@ namespace Departments.BusinessLayer.Services
 {
     public class DepartmentFileReaderService : IDepartmentFileReaderService
     {
-        public async Task<List<Department>> ReadAllFilesAsync(string filePath)
+        public async Task<List<Department>> ReadAllFilesAsync(string directoryPath)
         {
-            List<Department> departmentsCollection = new List<Department>();
+            var allDepartments = new List<Department>();
 
-            string[] files = Directory.GetFiles(filePath);
-
-            foreach (string file in files)
+            foreach (var file in Directory.EnumerateFiles(directoryPath))
             {
                 var departments = await ReadFileAsDepartmentsAsync(file);
-                if (departments is not null)
-                    departmentsCollection.AddRange(departments);
+                if (departments?.Count > 0)
+                    allDepartments.AddRange(departments);
             }
-          
-            return SortDepartmentsHierarcy(departmentsCollection);
+
+            return BuildDepartmentHierarchy(allDepartments);
 
         }
 
@@ -51,7 +49,7 @@ namespace Departments.BusinessLayer.Services
             return departments;
         }
 
-        private List<Department> SortDepartmentsHierarcy(List<Department> departmentsCollection)
+        private List<Department> BuildDepartmentHierarchy(List<Department> departmentsCollection)
         {
             var departmentsDictionary = CreateDepartmentDictionary(departmentsCollection);
 
