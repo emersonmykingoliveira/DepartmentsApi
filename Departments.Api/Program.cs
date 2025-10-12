@@ -2,6 +2,7 @@ using Departments.Api.Middleware;
 using Departments.BusinessLayer.Models;
 using Departments.BusinessLayer.Services;
 using Microsoft.OpenApi.Models;
+using System.IO.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +20,9 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddControllers();
 
 //Dependency registrations
-builder.Services.Configure<DepartmentFilesOptions>(builder.Configuration.GetSection("DepartmentFiles"));
+builder.Services.AddSingleton<IFileSystem, FileSystem>();
 builder.Services.AddScoped<IDepartmentFileReaderService, DepartmentFileReaderService>();
+
 
 var app = builder.Build();
 

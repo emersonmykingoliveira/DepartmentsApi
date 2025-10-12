@@ -1,6 +1,8 @@
 ﻿using Departments.BusinessLayer.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,8 +11,12 @@ namespace Departments.BusinessLayer.Services
 {
     public class DepartmentFileReaderService : IDepartmentFileReaderService
     {
-        public Func<string, Stream> FileOpener { get; set; } =
-            path => new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        private readonly IFileSystem _fileSystem;
+
+        public DepartmentFileReaderService(IFileSystem fileSystem)
+        {
+            _fileSystem = fileSystem;
+        }
 
         public async Task<List<Department>> ReadAllFilesAsync(string directoryPath)
         {
@@ -31,18 +37,14 @@ namespace Departments.BusinessLayer.Services
         {
             var departments = new List<Department>();
 
-            using var stream = FileOpener(filePath);
-
-            using var reader = new StreamReader(stream);
+            string[] lines = await _fileSystem.File.ReadAllLinesAsync(filePath);
 
             int lineNumber = 0;
 
-            await reader.ReadLineAsync();//Skip header
-
-            lineNumber++;
-
-            while (await reader.ReadLineAsync() is { } line)
+            foreach (var line in lines.Skip(1))
             {
+                lineNumber++;
+
                 if (string.IsNullOrWhiteSpace(line)) continue;
 
                 if (TryParseDepartment(line, lineNumber) is { } department)
