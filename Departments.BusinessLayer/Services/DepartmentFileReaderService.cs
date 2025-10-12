@@ -16,9 +16,9 @@ namespace Departments.BusinessLayer.Services
             FilePath = filePath;
         }
 
-        public async Task<List<DepartmentResult>> ReadAllFilesAsync()
+        public async Task<List<Department>> ReadAllFilesAsync()
         {
-            DepartmentCollection departmentCollection = new DepartmentCollection();
+            List<Department> departmentsCollection = new List<Department>();
 
             string[] files = Directory.GetFiles(FilePath);
 
@@ -26,10 +26,10 @@ namespace Departments.BusinessLayer.Services
             {
                 var departments = await ReadFileAsDepartmentsAsync(file);
                 if (departments is not null)
-                    departmentCollection.Departments.AddRange(departments);
+                    departmentsCollection.AddRange(departments);
             }
           
-            return SortDepartmentsHierarcy(departmentCollection);
+            return SortDepartmentsHierarcy(departmentsCollection);
 
         }
 
@@ -37,7 +37,7 @@ namespace Departments.BusinessLayer.Services
         {
             List<Department> departments = new List<Department>();
 
-            using (var stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
+            using (var stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
                 using (var reader = new StreamReader(stream))
                 {
@@ -58,13 +58,13 @@ namespace Departments.BusinessLayer.Services
             return departments;
         }
 
-        private List<DepartmentResult> SortDepartmentsHierarcy(DepartmentCollection departmentCollection)
+        private List<Department> SortDepartmentsHierarcy(List<Department> departmentsCollection)
         {
-            var departmentsDictionary = departments.ToDictionary(d => d.Oid);
+            var departmentsDictionary = CreateDepartmentDictionary(departmentsCollection);
 
             var departmentsRoots = new List<Department>();
 
-            foreach (var department in departments)
+            foreach (var department in departmentsCollection)
             {
                 if (departmentsDictionary.TryGetValue(department.DepartmentParentOID, out var parent))
                 {
@@ -79,6 +79,17 @@ namespace Departments.BusinessLayer.Services
             return departmentsRoots;
         }
 
+        private Dictionary<int, Department> CreateDepartmentDictionary(List<Department> departmentsCollection)
+        {
+            Dictionary<int, Department> departmentDictionary = new Dictionary<int, Department>();
+
+            foreach (var department in departmentsCollection)
+            {
+                departmentDictionary.TryAdd(department.Oid, department);
+            }
+
+            return departmentDictionary;
+        }
 
         private Department TryParseLineAsDepartment(string line)
         {
