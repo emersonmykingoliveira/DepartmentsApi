@@ -1,0 +1,41 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Departments API",
+    "version": "1.0.0",
+    "description": "API for reading and displaying department hierarchy data from configured files."
+  },
+  "paths": {
+    "/departments/hierarchy": {
+      "get": {
+        "summary": "Get department hierarchy",
+        "description": "Reads all department files from the configured file path and returns a complete hierarchy of departments.",
+        "operationId": "Departments_GetHierarchy",
+        "tags": [ "Departments" ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the department hierarchy.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DepartmentModel"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error while reading department files."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DepartmentModel": {
+        "type": "object",
+        "properties": {
+          "id": {
