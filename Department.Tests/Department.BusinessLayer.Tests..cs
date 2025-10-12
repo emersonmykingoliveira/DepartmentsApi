@@ -1,75 +1,104 @@
-﻿//using Departments.BusinessLayer.Models;
-//using Departments.BusinessLayer.Services;
-//using NSubstitute;
-//using System;
-//using System.Collections.Generic;
-//using System.IO;
-//using System.Linq;
-//using System.Reflection;
-//using System.Text;
-//using System.Threading.Tasks;
-//using Xunit;
+﻿using Departments.BusinessLayer.Models;
+using Departments.BusinessLayer.Services;
+using NSubstitute;
+using System.Collections.Generic;
+using System.IO.Abstractions;
+using System.Threading.Tasks;
+using Xunit;
 
-//namespace Departments.Tests.Services
-//{
-//    public class DepartmentFileReaderServiceTests
-//    {
-//        [Fact]
-//        public async Task ReadAllFilesAsync_EmptyDirectory_ReturnsEmptyList()
-//        {
-//            // Arrange
-//            var directoryPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-//            Directory.CreateDirectory(directoryPath);
+namespace Departments.Tests.BusinessLayer.Services
+{
+    public class DepartmentParserTests
+    {
+        private readonly IFileSystem _fileSystem = Substitute.For<IFileSystem>();
+        private readonly IFile _file = Substitute.For<IFile>();
+        private readonly DepartmentParser _parser;
 
-//            var service = new DepartmentFileReaderService();
+        public DepartmentParserTests()
+        {
+            _fileSystem.File.Returns(_file);
+            _parser = new DepartmentParser(_fileSystem);
+        }
 
-//            // Act
-//            var result = await service.ReadAllFilesAsync(directoryPath);
+        [Fact]
+        public async Task ReadFileAsDepartmentsAsync_ShouldParseValidCsv()
+        {
+            // Arrange
+            var filePath = "departments.csv";
+            var csvLines = new[]
+            {
+                "OID,Title,Color,DepartmentParent_OID",
+                "1,US News,#F52612,",
+                "2,Crime + Justice,#F52612,1",
+                "3,Energy + Environment,#F52612,1",
+                "4,Extreme Weather,#F52612,1",
+                "5,Space + Science,#F52612,1",
+                "6,International News,#EB5F25,",
+                "7,Africa,#EB5F25,6",
+                "8,Americas,#EB5F25,6",
+                "9,Asia,#EB5F25,6",
+                "10,Europe,#EB5F25,6"
+            };
 
-//            // Assert
-//            Assert.Empty(result);
-//        }
+            _file.ReadAllLinesAsync(filePath).Returns(Task.FromResult(csvLines));
 
-//        [Fact]
-//        public void TryParseDepartment_ValidLine_ReturnsDepartment()
-//        {
-//            // Arrange
-//            var line = "1,Finance,#F52612,0";
-//            var method = typeof(DepartmentFileReaderService)
-//                .GetMethod("TryParseDepartment", BindingFlags.NonPublic | BindingFlags.Instance);
-//            var service = new DepartmentFileReaderService();
+            // Act
+            var result = await _parser.ReadFileAsDepartmentsAsync(filePath);
 
-//            // Act
-//            var result = (Department?)method?.Invoke(service, new object[] { line, 1 });
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(10, result.Count);
 
-//            // Assert
-//            Assert.Equal(1, result?.Oid);
-//            Assert.Equal("Finance", result?.Title);
-//            Assert.Equal("#F52612", result?.Color);
-//            Assert.Equal(0, result?.DepartmentParentOID);
-//        }
+            var first = result[0];
+            Assert.Equal(1, first.Oid);
+            Assert.Equal("US News", first.Title);
+            Assert.Equal("#F52612", first.Color);
+            Assert.Null(first.DepartmentParentOID);
 
-//        [Fact]
-//        public void BuildDepartmentHierarchy_ShouldLinkChildDepartments()
-//        {
-//            // Arrange
-//            var parent = new Department { Oid = 1, Title = "Parent", DepartmentParentOID = 0, Departments = new List<Department>() };
-//            var child = new Department { Oid = 2, Title = "Child", DepartmentParentOID = 1, Departments = new List<Department>() };
+            var last = result[9];
+            Assert.Equal(10, last.Oid);
+            Assert.Equal(6, last.DepartmentParentOID);
+        }
 
-//            var departments = new List<Department> { parent, child };
+        [Fact]
+        public async Task ReadFileAsDepartmentsAsync_ShouldThrow_WhenInvalidOid()
+        {
+            // Arrange
+            var filePath = "invalid.csv";
+            var csvLines = new[]
+            {
+                "OID,Title,Color,DepartmentParent_OID",
+                ",Invalid,#123456,"
+            };
 
-//            var method = typeof(DepartmentFileReaderService)
-//                .GetMethod("BuildDepartmentHierarchy", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            _file.ReadAllLinesAsync(filePath).Returns(Task.FromResult(csvLines));
 
-//            var service = new DepartmentFileReaderService();
+            // Act & Assert
+            await Assert.ThrowsAsync<System.ArgumentException>(
+                async () => await _parser.ReadFileAsDepartmentsAsync(filePath));
+        }
 
-//            // Act
-//            var result = (List<Department>?)method?.Invoke(service, new object[] { departments });
+        [Fact]
+        public async Task ReadFileAsDepartmentsAsync_ShouldSkipEmptyLines()
+        {
+            // Arrange
+            var filePath = "skip-empty.csv";
+            var csvLines = new[]
+            {
+                "OID,Title,Color,DepartmentParent_OID",
+                "1,US News,#F52612,",
+                "",
+                "2,Crime + Justice,#F52612,1"
+            };
 
-//            // Assert
-//            Assert.Single(result!); // Root only
-//            Assert.Single(result![0].Departments);
-//            Assert.Equal("Child", result[0].Departments[0].Title);
-//        }
-//    }
-//}
+            _file.ReadAllLinesAsync(filePath).Returns(Task.FromResult(csvLines));
+
+            // Act
+            var result = await _parser.ReadFileAsDepartmentsAsync(filePath);
+
+            // Assert
+            Assert.Equal(2, result.Count);
+            Assert.DoesNotContain(result, d => d.Title == "");
+        }
+    }
+}
