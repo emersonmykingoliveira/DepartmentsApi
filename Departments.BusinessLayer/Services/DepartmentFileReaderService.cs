@@ -100,6 +100,7 @@ namespace Departments.BusinessLayer.Services
 
             departmentWithParent.Color = content[2];
 
+            //DepartmentParentOID
             if (int.TryParse(content[3], out int departmentParentOID))
                 departmentWithParent.DepartmentParentOID = departmentParentOID;
             else
