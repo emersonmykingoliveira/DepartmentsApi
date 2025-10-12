@@ -1,0 +1,11 @@
+OID,Title,Color,DepartmentParent_OID
+1,US News,#F52612,
+2,Crime + Justice,#F52612,1
+3,Energy + Environment,#F52612,1
+4,Extreme Weather,#F52612,1
+5,Space + Science,#F52612,1
+6,International News,#EB5F25,
+7,Africa,#EB5F25,6
+8,Americas,#EB5F25,6
+9,Asia,#EB5F25,6
+10,Europe,#EB5F25,6
