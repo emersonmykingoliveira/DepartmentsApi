@@ -38,5 +38,28 @@ namespace Departments.Tests
             await mockService.Received(1).ReadAllFilesAsync("fake/path");
 
         }
+
+        [Fact]
+        public async Task GetHierarchy_ReturnsEmptyList_WhenNoDepartments_Test()
+        {
+            // Arrange
+            var mockService = Substitute.For<IDepartmentFileReaderService>();
+            var mockConfig = Substitute.For<IConfiguration>();
+
+            mockConfig["DepartmentFiles:Path"].Returns("fake/path");
+            mockService.ReadAllFilesAsync("fake/path").Returns(new List<Department>());
+
+            var controller = new DepartmentsController(mockService, mockConfig);
+
+            // Act
+            var result = await controller.GetHierarchy();
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var value = Assert.IsType<List<Department>>(okResult.Value);
+            Assert.Empty(value);
+
+            await mockService.Received(1).ReadAllFilesAsync("fake/path");
+        }
     }
 }
