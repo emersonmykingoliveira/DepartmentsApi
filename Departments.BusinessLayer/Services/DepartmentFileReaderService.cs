@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Departments.BusinessLayer.Services
 {
-    public class DepartmentFileReader : IDepartmentFileReader
+    public class DepartmentFileReaderService : IDepartmentFileReaderService
     {
         public string FilePath { get; set; }
 
-        public DepartmentFileReader(string filePath)
+        public DepartmentFileReaderService(string filePath)
         {
             FilePath = filePath;
         }

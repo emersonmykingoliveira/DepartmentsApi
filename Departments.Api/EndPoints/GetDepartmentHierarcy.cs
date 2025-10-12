@@ -6,7 +6,7 @@ namespace Departments.Api.EndPoints
     {
         public static void GetDepartmentsHierarcy(this WebApplication app)
         {
-            app.MapGet("DepartmentsHierarcy", async (IDepartmentFileReader departmentFileReader) =>
+            app.MapGet("DepartmentsHierarcy", async (IDepartmentFileReaderService departmentFileReader) =>
             {
                 return await departmentFileReader.ReadAllFilesAsync();
             });

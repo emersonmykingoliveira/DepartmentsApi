@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Departments.BusinessLayer.Models
 {
-    public interface IDepartmentFileReader
+    public interface IDepartmentFileReaderService
     {
         string FilePath { get; set; }
         Task<List<Department>> ReadAllFilesAsync();

@@ -18,11 +18,11 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 //Dependency registrations
-builder.Services.AddScoped<IDepartmentFileReader>(dp =>
+builder.Services.AddScoped<IDepartmentFileReaderService>(dp =>
 {
     IConfiguration config = dp.GetRequiredService<IConfiguration>();
     string filePath = config["DepartmentFiles:Path"] ?? string.Empty;
-    return new DepartmentFileReader(filePath);
+    return new DepartmentFileReaderService(filePath);
 });
 
 var app = builder.Build();
