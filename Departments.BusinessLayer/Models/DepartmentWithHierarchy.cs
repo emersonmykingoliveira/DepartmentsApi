@@ -9,6 +9,7 @@ namespace Departments.BusinessLayer.Models
 {
     public class DepartmentWithHierarchy
     {
+        [JsonIgnore]
         public int? DepartmentParentOID { get; set; }
         public int Oid { get; set; }
         public string? Title { get; set; }
