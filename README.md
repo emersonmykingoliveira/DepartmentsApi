@@ -2,9 +2,9 @@
 A .NET Core API that reads and exposes department hierarchy data from configured files. Built with clean architecture principles using a Business Layer Service for reading files and a controller that serves the data over HTTP requests.
 
 ## Structure
-Departments.API
-Departments.BusinessLayer
-Departments.Tests
+- Departments.API
+- Departments.BusinessLayer
+- Departments.Tests
 
 ## Endpoint
 GET Departments/hierarchy
