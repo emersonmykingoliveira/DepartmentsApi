@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace Departments.Api.Middleware
 {
@@ -22,15 +23,17 @@ namespace Departments.Api.Middleware
             catch (Exception ex)
             {
 
-                var problem = new
+                var problem = new ProblemDetails
                 {
-                    type = "https://tools.ietf.org/html/rfc7807",
-                    title = "Invalid JSON",
-                    detail = ex.Message,
-                    status = 400
+                    Title = "Error parsing file",
+                    Detail = ex.Message,
                 };
 
-                await JsonSerializer.SerializeAsync(httpContext.Response.Body, problem);
+                await JsonSerializer.SerializeAsync(httpContext.Response.Body, problem, new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
             }
         }
     }
