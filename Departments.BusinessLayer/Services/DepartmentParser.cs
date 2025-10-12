@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Departments.BusinessLayer.Services
@@ -17,44 +16,61 @@ namespace Departments.BusinessLayer.Services
             _fileSystem = fileSystem;
         }
 
-        public async Task<List<Department>> ParseFileAsync(string filePath)
+        public async Task<List<Department>> ReadFileAsDepartmentsAsync(string filePath)
         {
-            var lines = await _fileSystem.File.ReadAllLinesAsync(filePath);
             var departments = new List<Department>();
 
-            foreach (var (line, index) in lines.Skip(1).Select((v, i) => (v, i + 2)))
+            string[] lines = await _fileSystem.File.ReadAllLinesAsync(filePath);
+
+            int lineNumber = 0;
+
+            foreach (var line in lines.Skip(1))
             {
+                lineNumber++;
+
                 if (string.IsNullOrWhiteSpace(line)) continue;
-                departments.Add(ParseLine(line, index));
+
+                if (TryParseDepartment(line, lineNumber) is { } department)
+                    departments.Add(department);
             }
 
             return departments;
         }
 
-        private Department ParseLine(string line, int lineNumber)
+        private Department TryParseDepartment(string line, int lineNumber)
         {
-            var parts = line.Split(',');
+            var content = line.Split(',');
 
-            if (parts.Length < 3)
-                throw new ArgumentException($"Line {lineNumber}: insufficient columns.");
+            Department departmentWithParent = new Department();
 
-            if (!int.TryParse(parts[0], out var oid))
-                throw new ArgumentException($"Line {lineNumber}: invalid OID.");
+            //OID
+            if (int.TryParse(content[0], out int oID))
+                departmentWithParent.Oid = oID;
+            else
+                throw new ArgumentException($"Line number {lineNumber}, error parsing OID");
 
-            var title = parts[1];
-            var color = parts[2];
+            //Title
+            if (string.IsNullOrWhiteSpace(content[1]))
+                throw new ArgumentException($"Line number {lineNumber}, error parsing Title");
 
-            int parentOid = 0;
-            if (parts.Length > 3 && int.TryParse(parts[3], out var pOid))
-                parentOid = pOid;
+            departmentWithParent.Title = content[1];
 
-            return new Department
+            //Color
+            if (string.IsNullOrWhiteSpace(content[2]))
+                throw new ArgumentException($"Line number {lineNumber}, error parsing Color");
+
+            departmentWithParent.Color = content[2];
+
+            //DepartmentParentOID
+            if (!string.IsNullOrWhiteSpace(content[3]))
             {
-                Oid = oid,
-                Title = title,
-                Color = color,
-                DepartmentParentOID = parentOid
-            };
+                if (int.TryParse(content[3], out int departmentParentOID))
+                    departmentWithParent.DepartmentParentOID = departmentParentOID;
+                else
+                    throw new ArgumentException($"Line number {lineNumber}, error parsing DepartmentParentOID");
+            }
+
+            return departmentWithParent;
         }
     }
 }
