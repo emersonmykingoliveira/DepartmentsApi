@@ -1,5 +1,7 @@
 ﻿using Departments.BusinessLayer.Models;
+using System.Collections.Generic;
 using System.IO.Abstractions;
+using System.Threading.Tasks;
 
 namespace Departments.BusinessLayer.Services
 {
@@ -25,11 +27,12 @@ namespace Departments.BusinessLayer.Services
 
             foreach (var file in _fileSystem.Directory.EnumerateFiles(directoryPath))
             {
-                var departments = await _parser.ParseFileAsync(file);
-                allDepartments.AddRange(departments);
+                var departments = await _parser.ReadFileAsDepartmentsAsync(file);
+                if (departments?.Count > 0)
+                    allDepartments.AddRange(departments);
             }
 
-            return _hierarchyBuilder.BuildHierarchy(allDepartments);
+            return _hierarchyBuilder.BuildDepartmentHierarchy(allDepartments);
         }
     }
 }
