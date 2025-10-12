@@ -32,6 +32,7 @@ namespace Departments.BusinessLayer.Services
                     Color = department.Color,
                     Oid = department.Oid,
                     Title = department.Title,
+                    DepartmentParentOID = department.DepartmentParentOID
                 });
             }
 

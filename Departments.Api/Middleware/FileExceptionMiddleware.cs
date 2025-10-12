@@ -30,11 +30,7 @@ namespace Departments.Api.Middleware
                     Detail = ex.Message,
                 };
 
-                await JsonSerializer.SerializeAsync(httpContext.Response.Body, problem, new JsonSerializerOptions
-                {
-                    WriteIndented = true,
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                });
+                await JsonSerializer.SerializeAsync(httpContext.Response.Body, problem, new JsonSerializerOptions{ WriteIndented = true });
             }
         }
     }
