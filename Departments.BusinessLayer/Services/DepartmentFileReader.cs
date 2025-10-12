@@ -19,20 +19,25 @@ namespace Departments.BusinessLayer.Services
         public async Task<List<Department>> ReadAllFilesAsync()
         {
             List<Department> departments = new List<Department>();
-            string[] files = Directory.GetFiles(FilePath);
 
-            foreach (string file in files)
+            using (var stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
             {
-                var allLines = await File.ReadAllLinesAsync(file);
-                    
-                foreach (string line in allLines.Skip(1))
+                using (var reader = new StreamReader(stream))
                 {
-                    var result = TryParseFileContent(line);
-                    departments.Add(result);
+                    while (await reader.ReadLineAsync() is string line)
+                    {
+                        if (string.IsNullOrWhiteSpace(line)) continue;
+
+                        var department = TryParseLineAsDepartment(line);
+
+                        if (department is not null)
+                            departments.Add(department);
+                    }
                 }
             }
-
+          
             return SortDepartmentsHierarcy(departments);
+
         }
 
         private List<Department> SortDepartmentsHierarcy(List<Department> departments)
@@ -43,7 +48,7 @@ namespace Departments.BusinessLayer.Services
 
             foreach (var department in departments)
             {
-                if(departmentsDictionary.TryGetValue(department.DepartmentParentOID, out var parent))
+                if (departmentsDictionary.TryGetValue(department.DepartmentParentOID, out var parent))
                 {
                     parent.Departments.Add(department);
                 }
@@ -57,7 +62,7 @@ namespace Departments.BusinessLayer.Services
         }
 
 
-        private Department TryParseFileContent(string line)
+        private Department TryParseLineAsDepartment(string line)
         {
             var content = line.Split(',');
 
