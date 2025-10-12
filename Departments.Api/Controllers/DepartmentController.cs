@@ -1,6 +1,5 @@
 ﻿using Departments.BusinessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.IO.Abstractions;
 
 namespace Departments.Api.Controllers
 {
